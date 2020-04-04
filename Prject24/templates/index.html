@@ -1,0 +1,92 @@
+
+<html>
+    <body>
+        <table align="center" border="0">
+            <tr>
+                <th colspan="2" style="text-align: center;font-family: 'Arial Black';font-size: 50px">
+                    Product Information Page
+                </th>
+            </tr>
+
+            <tr>
+                <th>
+                    <form action="{% url 'save_product' %}" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                    <table align="center" border="2" bgcolor="#f5deb3">
+                        <tr><th>Product Registration</th></tr>
+                        <tr><th><input type="number" name="t1" placeholder="No" required></th></tr>
+                        <tr><th><input type="text" name="t2" placeholder="Name" required></th></tr>
+                        <tr><th><input type="number" name="t3" placeholder="Price" required></th></tr>
+                        <tr><th><input type="number" name="t4" placeholder="Quantity" required></th></tr>
+                        <tr><th>Photo <input type="file" name="t5" required></th></tr>
+                        <tr><th><button type="submit">Save</button> </th></tr>
+                    </table>
+                    </form>
+                </th>
+
+                <th>
+
+                    {% if data %}
+                        <h3>Click on the Image to view Complete Image</h3>
+                        <table align="center" border="2">
+                            <tr bgcolor="#adff2f">
+                                <th width="100">No</th>
+                                <th width="200">Name</th>
+                                <th width="100">Price</th>
+                                <th>Quantity</th>
+                                <th>Image</th>
+                                <th>Update</th>
+                                <th>Delete</th>
+                            </tr>
+
+                            {% for x in data %}
+                                 <tr>
+                                    <th>{{ x.no }}</th>
+                                    <th>{{ x.name }}</th>
+                                    <th>{{ x.price }}</th>
+                                    <th>{{ x.quantity }}</th>
+                                    <th>
+                                        <a href="{{ x.image.url }}">
+                                            <img src="{{ x.image.url }}" width="50" height="50">
+                                        </a>
+                                    </th>
+                                 <th> ? </th>
+                                 <th> ? </th>
+                                 </tr>
+                            {% endfor %}
+
+                            <tr>
+                                {% if data.has_previous %}
+                                    <th colspan="3">
+                                        <a href="{% url 'main' %}?pno={{ data.previous_page_number }}">
+                                            Previous
+                                        </a>
+                                    </th>
+                                {% endif %}
+
+                                {% if data.has_next %}
+                                    <th colspan="4">
+                                        <a href="{% url 'main' %}?pno={{ data.next_page_number }}">
+                                            Next
+                                        </a>
+                                    </th>
+                                {% endif %}
+
+                            </tr>
+                        </table>
+
+
+                    {% else %}
+                        <h1 style="font-family: 'Agency FB';font-size: 50px;color: red">
+                            Sorry No Products are available..!
+                        </h1>
+                        <h1 style="font-family: 'Agency FB';font-size: 30px;color: blue">
+                            Please Add Some Products..
+                        </h1>
+                    {% endif %}
+
+                </th>
+            </tr>
+        </table>
+    </body>
+</html>
